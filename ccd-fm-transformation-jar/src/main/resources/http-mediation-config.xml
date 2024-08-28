@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<http-mediation-config>
+   <network-element type="CCD" version="1.0.0">
+
+       <alarms-get-config>
+         <alarm-entry-config id="01">
+            <snmp-table oid="ccdAlarmSync" contextRoot="/api/v1/alerts" />
+         </alarm-entry-config>
+      </alarms-get-config>
+     
+   </network-element>
+</http-mediation-config>

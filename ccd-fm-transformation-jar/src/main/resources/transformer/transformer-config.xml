@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:model-transformer-config id="CCD" version="1.0.0" xmlns:j="jelly:core" xmlns:t="jelly:enm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <t:model-transformer-imports> 
+        <t:import-transformer-config file="common-maps.xml" />        
+        <t:import-transformer-config file="common-enums.xml" />
+  </t:model-transformer-imports> 
+    <t:model-transformers>  
+        <t:model-transformer id="ccdAlarmSync" description="Read Alarms">  
+            <t:set-model-attribute oid="eriAlarmActiveMinorType" attributeName="alarmId"/>  
+            <t:set-model-property  oid="labels.cluster" mappedBy="managedObjectInstance" />
+                                  
+            <t:set-model-property oid="labels.alertname" mappedBy="specificProblem" />
+            <t:evaluate-set-model-property mappedBy="recordType" evaluator="SimpleModelEvaluator" args="value=SYNCHRONIZATION_ALARM" />             
+
+            <t:convert-set-model-property oid="startsAt" mappedBy="eventTime" 
+                                    converter="EcmDateModelConverter" args="format=yyyyMMddHHmmss.SSS"/>
+                                    
+            <t:convert-set-model-property oid="labels.eriAlarmActiveEventType" mappedBy="eventType" 
+                                    converter="XmlDefinedMapModelConverterForHds" args="map=IANAItuEventType"/>
+                                    
+            <t:convert-set-model-property oid="labels.eriAlarmActiveProbableCause" mappedBy="probableCause" 
+                                    converter="XmlDefinedMapModelConverterForHds" args="map=EriProbableCause"/>
+                                    
+	    <t:convert-set-model-property oid="labels.severity" mappedBy="perceivedSeverity" 
+                                    converter="XmlDefinedMapModelConverter" args="map=ItuCcdPerceivedSeverity"/>
+		<t:set-model-attribute oid="annotations.summary" attributeName="annotationssummary"/>
+		
+        </t:model-transformer>  
+    </t:model-transformers>  
+</t:model-transformer-config>
